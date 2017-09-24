@@ -9,7 +9,7 @@ import timber.log.Timber
 
 class App : Application() {
 
-    lateinit var appComponent: AppComponent
+    private lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -20,4 +20,6 @@ class App : Application() {
 
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
+
+    fun getComponent() = appComponent
 }
