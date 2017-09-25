@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.chipcerio.moovy.R
+import com.chipcerio.moovy.data.common.Trending
 
-class MovieAdapter(private val anys: List<Any>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(private val items: List<Trending>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tv, parent, false)
@@ -16,10 +17,10 @@ class MovieAdapter(private val anys: List<Any>) : RecyclerView.Adapter<MovieAdap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(anys.get(position))
+        holder.bind(items.get(position))
     }
 
-    override fun getItemCount(): Int = anys.size
+    override fun getItemCount(): Int = items.size
 
     class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -27,8 +28,8 @@ class MovieAdapter(private val anys: List<Any>) : RecyclerView.Adapter<MovieAdap
 
         private var imageView: ImageView = view.findViewById(R.id.imageView)
 
-        fun bind(any: Any) {
-
+        fun bind(item: Trending) {
+            titleView.text = item.movie.title
         }
 
     }

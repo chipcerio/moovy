@@ -2,6 +2,7 @@ package com.chipcerio.moovy.di
 
 import com.chipcerio.moovy.BuildConfig
 import com.chipcerio.moovy.api.ApiService
+import com.chipcerio.moovy.api.adapter.TrendingAdapter
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -16,9 +17,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(): Retrofit {
-        val moshi = Moshi.Builder().build()
-
+    fun providesOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
         builder.addInterceptor {
             val original = it.request()
@@ -30,14 +29,25 @@ class NetworkModule {
             }.build()
             it.proceed(request)
         }
+        return builder.build()
+    }
 
-        val client = builder.build()
+    @Provides
+    @Singleton
+    fun providesMoshi(): Moshi {
+        return Moshi.Builder()
+                .add(TrendingAdapter())
+                .build()
+    }
 
+    @Provides
+    @Singleton
+    fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return with(Retrofit.Builder()) {
             baseUrl("https://api.trakt.tv/")
-            addConverterFactory(MoshiConverterFactory.create(moshi))
-            client(client)
             addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            addConverterFactory(MoshiConverterFactory.create())
+            client(okHttpClient)
         }.build()
     }
 
