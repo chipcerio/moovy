@@ -82,8 +82,8 @@ This project is licensed under the Apache License - see the [LICENSE.md](LICENSE
 
 ## Acknowledgments
 
+* [PurpleBooth](https://github.com/PurpleBooth) for the [README template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 * Hat tip to anyone who's code was used
-* etc
 
 ## Inspirations
 

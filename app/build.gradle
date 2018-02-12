@@ -49,6 +49,7 @@ android {
     buildTypes.each {
         it.buildConfigField('String', 'TRAKT_CLIENT_ID', apiKeysProperties['TraktClientId'])
         it.buildConfigField('String', 'TRAKT_CLIENT_SECRET', apiKeysProperties['TraktClientSecret'])
+        it.buildConfigField('String', 'TMDB_API_KEY', apiKeysProperties['TmdbApiKey'])
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -99,5 +100,4 @@ dependencies {
 
     // utilities
     implementation 'com.jakewharton.timber:timber:4.5.1'
-//    implementation 'com.squareup.moshi:moshi:1.4.0'
 }

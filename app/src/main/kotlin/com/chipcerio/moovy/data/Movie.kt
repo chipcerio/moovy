@@ -12,6 +12,8 @@ data class Movie (
         val year: Int = 1900,
 
         @Json(name = "ids")
-        val ids: Id = Id()
+        val ids: Id = Id(),
+
+        val image: String = ""
 
 )

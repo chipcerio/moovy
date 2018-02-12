@@ -3,6 +3,7 @@ package com.chipcerio.moovy.di
 import com.chipcerio.moovy.BuildConfig
 import com.chipcerio.moovy.api.ApiService
 import com.chipcerio.moovy.api.adapter.TrendingAdapter
+import com.chipcerio.moovy.data.adapter.TmdbImageAdapter
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -36,17 +37,17 @@ class NetworkModule {
     @Singleton
     fun providesMoshi(): Moshi {
         return Moshi.Builder()
-                .add(TrendingAdapter())
+                .add(TmdbImageAdapter())
                 .build()
     }
 
     @Provides
     @Singleton
-    fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return with(Retrofit.Builder()) {
             baseUrl("https://api.trakt.tv/")
             addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            addConverterFactory(MoshiConverterFactory.create())
+            addConverterFactory(MoshiConverterFactory.create(moshi))
             client(okHttpClient)
         }.build()
     }
