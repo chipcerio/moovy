@@ -1,4 +1,4 @@
-package com.chipcerio.moovy.features
+package com.chipcerio.moovy.features.master_list
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,6 +10,8 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_trending.*
 
 class MovieAdapter(private val items: List<Movie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+
+    private lateinit var onMovieSelectedListener: OnMovieSelectedListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_trending, parent, false)
@@ -23,8 +25,19 @@ class MovieAdapter(private val items: List<Movie>) : RecyclerView.Adapter<MovieA
     override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-        fun bind(item: Movie) {
-            titleView.text = item.title
+        fun bind(movie: Movie) {
+            titleView.text = movie.title
+            containerView.setOnClickListener {
+                onMovieSelectedListener.onMovieSelected(movie)
+            }
         }
+    }
+
+    fun setOnMovieSelectedListener(listener: OnMovieSelectedListener) {
+        onMovieSelectedListener = listener
+    }
+
+    interface OnMovieSelectedListener {
+        fun onMovieSelected(movie: Movie)
     }
 }

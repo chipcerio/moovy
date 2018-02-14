@@ -1,7 +1,7 @@
 package com.chipcerio.moovy.di
 
-import com.chipcerio.moovy.features.MainActivity
-import com.chipcerio.moovy.features.MainActivityModule
+import com.chipcerio.moovy.features.master_list.MainActivity
+import com.chipcerio.moovy.features.master_list.MainActivityModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

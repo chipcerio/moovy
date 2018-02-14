@@ -1,4 +1,4 @@
-package com.chipcerio.moovy.features
+package com.chipcerio.moovy.features.master_list
 
 import com.chipcerio.moovy.data.Movie
 import com.chipcerio.moovy.data.source.repository.PopularMoviesRepository

@@ -1,7 +1,12 @@
 package com.chipcerio.moovy.data
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@SuppressLint("ParcelCreator")
+@Parcelize
 data class Movie (
 
     val id: Int,
@@ -40,4 +45,4 @@ data class Movie (
     @SerializedName("release_date")
     val release_date: String
 
-)
+) : Parcelable
