@@ -3,7 +3,7 @@ package com.chipcerio.moovy.features
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import com.chipcerio.moovy.R
-import com.chipcerio.moovy.data.common.Trending
+import com.chipcerio.moovy.data.Movie
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class MainActivity : DaggerAppCompatActivity() {
 
     @Inject
-    lateinit var viewModel: TrendingViewModel
+    lateinit var viewModel: PopularMoviesViewModel
 
     private val disposables = CompositeDisposable()
 
@@ -28,10 +28,10 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onStart() {
         super.onStart()
         disposables.add(
-            viewModel.loadTrendingMovies()
+            viewModel.loadPopularMovies(1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ setTrendingItems(it) }, { Timber.e(it) })
+                .subscribe({ setPopularMovieItems(it) }, { Timber.e(it) })
         )
     }
 
@@ -40,7 +40,7 @@ class MainActivity : DaggerAppCompatActivity() {
         disposables.clear()
     }
 
-    private fun setTrendingItems(items: List<Trending>) {
+    private fun setPopularMovieItems(items: List<Movie>) {
         recyclerView.adapter = MovieAdapter(items)
     }
 }

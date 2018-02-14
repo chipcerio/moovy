@@ -1,7 +1,8 @@
 package com.chipcerio.moovy.di
 
-import com.chipcerio.moovy.BuildConfig
 import com.chipcerio.moovy.api.ApiService
+import com.chipcerio.moovy.api.ApiService.Companion.API_VERSION
+import com.chipcerio.moovy.api.ApiService.Companion.HOST
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -17,20 +18,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-        builder.addInterceptor {
-            val original = it.request()
-            val request = with(original.newBuilder()) {
-                header("Content-Type", "application/json")
-                header("trakt-api-version", "2")
-                header("trakt-api-key", BuildConfig.TRAKT_CLIENT_ID)
-                method(original.method(), original.body())
-            }.build()
-            it.proceed(request)
-        }
-        return builder.build()
-    }
+    fun providesOkHttpClient(): OkHttpClient = OkHttpClient()
 
     @Provides
     @Singleton
@@ -45,7 +33,7 @@ class NetworkModule {
     @Singleton
     fun providesRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return with(Retrofit.Builder()) {
-            baseUrl("https://api.trakt.tv/")
+            baseUrl(HOST + API_VERSION)
             addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             addConverterFactory(GsonConverterFactory.create(gson))
             client(okHttpClient)

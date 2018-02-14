@@ -1,15 +1,43 @@
 package com.chipcerio.moovy.data
 
-import com.chipcerio.moovy.data.common.Id
+import com.google.gson.annotations.SerializedName
 
-data class Movie(
+data class Movie (
+
+    val id: Int,
+
+    @SerializedName("vote_count")
+    val voteCount: Int,
+
+    val video: Boolean,
+
+    @SerializedName("vote_average")
+    val voteAverage: Double,
 
     val title: String,
 
-    val year: Int,
+    val popularity: Double,
 
-    val ids: Id,
+    @SerializedName("poster_path")
+    val posterPath: String,
 
-    val image: String
+    @SerializedName("original_language")
+    val originalLanguage: String,
+
+    @SerializedName("original_title")
+    val originalTitle: String,
+
+    @SerializedName("genre_ids")
+    val genreIds: List<Int>,
+
+    @SerializedName("backdrop_path")
+    val backdropPath: String,
+
+    val adult: Boolean,
+
+    val overview: String,
+
+    @SerializedName("release_date")
+    val release_date: String
 
 )

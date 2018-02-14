@@ -1,8 +1,8 @@
 package com.chipcerio.moovy.features
 
 import com.chipcerio.moovy.api.ApiService
-import com.chipcerio.moovy.data.source.TrendingSource
-import com.chipcerio.moovy.data.source.remote.TrendingRemoteSource
+import com.chipcerio.moovy.data.source.PopularMoviesSource
+import com.chipcerio.moovy.data.source.remote.PopularMoviesRemoteSource
 import dagger.Module
 import dagger.Provides
 
@@ -10,7 +10,7 @@ import dagger.Provides
 class MainActivityModule {
 
     @Provides
-    fun providesTrendingRemoteSource(apiService: ApiService): TrendingSource {
-        return TrendingRemoteSource(apiService)
+    fun providesTrendingRemoteSource(apiService: ApiService): PopularMoviesSource {
+        return PopularMoviesRemoteSource(apiService)
     }
 }
