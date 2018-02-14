@@ -1,13 +1,10 @@
 package com.chipcerio.moovy.data.common
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
-class TmdbConfig (
+class TmdbConfig(
+    val images: TmdbImageBase,
 
-        @Json(name = "images")
-        val image: TmdbImageBase = TmdbImageBase(),
-
-        @Json(name = "change_keys")
-        val changeKeys: MutableList<String> = mutableListOf()
-
+    @SerializedName("change_keys")
+    val changeKeys: List<String>
 )

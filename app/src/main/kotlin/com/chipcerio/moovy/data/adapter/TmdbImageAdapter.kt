@@ -2,8 +2,6 @@ package com.chipcerio.moovy.data.adapter
 
 import com.chipcerio.moovy.data.common.TmdbImage
 import com.chipcerio.moovy.data.common.TmdbImageMeta
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -23,7 +21,7 @@ class TmdbImageAdapter {
         private val POSTERS  = "posters"
     }
 
-    @ToJson fun toJson(tmdb: TmdbImage): String {
+    fun toJson(tmdb: TmdbImage): String {
         val root = JSONObject()
         root.put(TMDB_ID, tmdb.id)
 
@@ -58,8 +56,12 @@ class TmdbImageAdapter {
         return root.toString()
     }
 
-    @FromJson fun fromJson(json: String): TmdbImage {
-        val tmdb = TmdbImage()
+    fun fromJson(json: String): TmdbImage {
+        val tmdb = TmdbImage(
+            id = 0,
+            backdrops = emptyList(),
+            posters = emptyList()
+        )
         val root = JSONObject(json)
 
         tmdb.id = root.getInt(TMDB_ID)
@@ -69,14 +71,15 @@ class TmdbImageAdapter {
         for (i in 0..(backdropsArr.length() - 1)) {
             val itemJson = backdropsArr.getJSONObject(i)
 
-            val tmdbImageMeta = TmdbImageMeta()
-            tmdbImageMeta.aspectRatio = itemJson.getDouble(ASPECTRIO)
-            tmdbImageMeta.filePath    = itemJson.getString(FILEPATH)
-            tmdbImageMeta.height      = itemJson.getInt(HEIGHT)
-            tmdbImageMeta.iso639_1    = itemJson.getString(ISO_6391)
-            tmdbImageMeta.voteAverage = itemJson.getDouble(VOTE_AVG)
-            tmdbImageMeta.voteCount   = itemJson.getInt(VOTE_CNT)
-            tmdbImageMeta.width       = itemJson.getInt(WIDTH)
+            val tmdbImageMeta = TmdbImageMeta (
+                aspectRatio = itemJson.getDouble(ASPECTRIO),
+                filePath    = itemJson.getString(FILEPATH),
+                height      = itemJson.getInt(HEIGHT),
+                iso639_1    = itemJson.getString(ISO_6391),
+                voteAverage = itemJson.getDouble(VOTE_AVG),
+                voteCount   = itemJson.getInt(VOTE_CNT),
+                width       = itemJson.getInt(WIDTH)
+            )
 
             backdrops.add(tmdbImageMeta)
         }
@@ -87,14 +90,15 @@ class TmdbImageAdapter {
         for (i in 0..(postersArr.length() - 1)) {
             val itemJson = postersArr.getJSONObject(i)
 
-            val tmdbImageMeta = TmdbImageMeta()
-            tmdbImageMeta.aspectRatio = itemJson.getDouble(ASPECTRIO)
-            tmdbImageMeta.filePath    = itemJson.getString(FILEPATH)
-            tmdbImageMeta.height      = itemJson.getInt(HEIGHT)
-            tmdbImageMeta.iso639_1    = itemJson.getString(ISO_6391)
-            tmdbImageMeta.voteAverage = itemJson.getDouble(VOTE_AVG)
-            tmdbImageMeta.voteCount   = itemJson.getInt(VOTE_CNT)
-            tmdbImageMeta.width       = itemJson.getInt(WIDTH)
+            val tmdbImageMeta = TmdbImageMeta(
+                aspectRatio = itemJson.getDouble(ASPECTRIO),
+                filePath    = itemJson.getString(FILEPATH),
+                height      = itemJson.getInt(HEIGHT),
+                iso639_1    = itemJson.getString(ISO_6391),
+                voteAverage = itemJson.getDouble(VOTE_AVG),
+                voteCount   = itemJson.getInt(VOTE_CNT),
+                width       = itemJson.getInt(WIDTH)
+            )
 
             posters.add(tmdbImageMeta)
         }

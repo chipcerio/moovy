@@ -3,8 +3,6 @@ package com.chipcerio.moovy.api.adapter
 import com.chipcerio.moovy.data.Movie
 import com.chipcerio.moovy.data.common.Id
 import com.chipcerio.moovy.data.common.Trending
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
 import org.json.JSONObject
 
 class TrendingAdapter {
@@ -21,7 +19,6 @@ class TrendingAdapter {
         val TMDB = "tmdb"
     }
 
-    @ToJson
     fun toJson(trending: Trending): String {
         val ids = JSONObject()
         ids.put(TRAKT, trending.movie.ids.trakt)
@@ -41,7 +38,6 @@ class TrendingAdapter {
         return root.toString()
     }
 
-    @FromJson
     fun fromJson(trending: String): Trending {
         val root = JSONObject(trending)
         val watchers = root.getInt(WATCHERS)
@@ -56,7 +52,7 @@ class TrendingAdapter {
         val tmdb = idsJson.getInt(TMDB)
 
         val ids = Id(trakt, slug, imdb, tmdb)
-        val movie = Movie(title, year, ids)
+        val movie = Movie(title, year, ids, "")
 
         return Trending(watchers, movie)
     }

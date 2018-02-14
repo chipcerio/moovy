@@ -1,25 +1,18 @@
 package com.chipcerio.moovy
 
-import android.app.Application
-import com.chipcerio.moovy.di.AppComponent
-import com.chipcerio.moovy.di.AppModule
 import com.chipcerio.moovy.di.DaggerAppComponent
-import com.chipcerio.moovy.di.NetworkModule
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import timber.log.Timber
 
-class App : Application() {
-
-    private lateinit var appComponent: AppComponent
+class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .networkModule(NetworkModule())
-                .build()
-
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
 
-    fun getComponent() = appComponent
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.builder().create(this)
+    }
 }

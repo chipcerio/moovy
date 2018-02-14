@@ -2,15 +2,14 @@ package com.chipcerio.moovy.di
 
 import com.chipcerio.moovy.BuildConfig
 import com.chipcerio.moovy.api.ApiService
-import com.chipcerio.moovy.api.adapter.TrendingAdapter
-import com.chipcerio.moovy.data.adapter.TmdbImageAdapter
-import com.squareup.moshi.Moshi
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -35,19 +34,20 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesMoshi(): Moshi {
-        return Moshi.Builder()
-                .add(TmdbImageAdapter())
-                .build()
+    fun providesGson(): Gson {
+        return GsonBuilder().run {
+            setLenient()
+            create()
+        }
     }
 
     @Provides
     @Singleton
-    fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
+    fun providesRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return with(Retrofit.Builder()) {
             baseUrl("https://api.trakt.tv/")
             addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            addConverterFactory(MoshiConverterFactory.create(moshi))
+            addConverterFactory(GsonConverterFactory.create(gson))
             client(okHttpClient)
         }.build()
     }

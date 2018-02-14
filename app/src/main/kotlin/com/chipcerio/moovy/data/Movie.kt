@@ -1,19 +1,15 @@
 package com.chipcerio.moovy.data
 
 import com.chipcerio.moovy.data.common.Id
-import com.squareup.moshi.Json
 
-data class Movie (
+data class Movie(
 
-        @Json(name = "title")
-        val title: String = "",
+    val title: String,
 
-        @Json(name = "year")
-        val year: Int = 1900,
+    val year: Int,
 
-        @Json(name = "ids")
-        val ids: Id = Id(),
+    val ids: Id,
 
-        val image: String = ""
+    val image: String
 
 )
