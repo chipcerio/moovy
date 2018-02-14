@@ -6,5 +6,4 @@ import io.reactivex.Observable
 interface TrendingSource {
 
     fun getTrendingMovies(): Observable<List<Trending>>
-
 }
