@@ -3,6 +3,8 @@ package com.chipcerio.moovy.features.master_list
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import com.chipcerio.moovy.R
 import com.chipcerio.moovy.data.Movie
 import com.chipcerio.moovy.features.details.DetailsActivity
@@ -33,7 +35,14 @@ class MainActivity : DaggerAppCompatActivity(), MovieAdapter.OnMovieSelectedList
             viewModel.loadPopularMovies(1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ setPopularMovieItems(it) }, { Timber.e(it) })
+                .doOnNext {
+                    it.map {
+                        Timber.d("release_date: ${it.release_date}")
+                    }
+                }
+                .subscribe({
+                    setPopularMovieItems(it)
+                }, { Timber.e(it) })
         )
     }
 
@@ -52,5 +61,17 @@ class MainActivity : DaggerAppCompatActivity(), MovieAdapter.OnMovieSelectedList
         startActivity(Intent(this, DetailsActivity::class.java).apply {
             putExtra(DetailsActivity.EXTRAS_MOVIE, movie)
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_filter) {
+            DatePickerFragment().show(supportFragmentManager, "date_picker")
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

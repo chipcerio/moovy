@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Moovy</string>
+    <string name="filter">Filter</string>
 </resources>
