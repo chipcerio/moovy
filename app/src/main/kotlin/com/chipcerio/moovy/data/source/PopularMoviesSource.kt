@@ -5,5 +5,5 @@ import io.reactivex.Observable
 
 interface PopularMoviesSource {
 
-    fun getPopularMovies(page: Int): Observable<List<Movie>>
+    fun getPopularMovies(page: Int): Observable<MutableList<Movie>>
 }

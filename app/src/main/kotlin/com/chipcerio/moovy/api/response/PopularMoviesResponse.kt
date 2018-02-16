@@ -14,6 +14,6 @@ class PopularMoviesResponse (
     val totalPages: Int,
 
     @SerializedName("results")
-    val movies: List<Movie>
+    val movies: MutableList<Movie>
 
 )

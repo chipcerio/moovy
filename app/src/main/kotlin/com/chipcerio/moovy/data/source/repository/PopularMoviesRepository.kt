@@ -8,6 +8,6 @@ import javax.inject.Inject
 class PopularMoviesRepository @Inject
 constructor(private val remote: PopularMoviesSource) : PopularMoviesSource {
 
-    override fun getPopularMovies(page: Int): Observable<List<Movie>> = remote.getPopularMovies(page)
+    override fun getPopularMovies(page: Int): Observable<MutableList<Movie>> = remote.getPopularMovies(page)
 
 }

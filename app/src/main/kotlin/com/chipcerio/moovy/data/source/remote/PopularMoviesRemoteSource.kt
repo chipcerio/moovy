@@ -10,7 +10,7 @@ import javax.inject.Inject
 class PopularMoviesRemoteSource @Inject
 constructor(private val apiService: ApiService) : PopularMoviesSource {
 
-    override fun getPopularMovies(page: Int): Observable<List<Movie>> {
+    override fun getPopularMovies(page: Int): Observable<MutableList<Movie>> {
         return apiService.getPopular(BuildConfig.TMDB_API_KEY, 1)
             .map { it.movies }
     }

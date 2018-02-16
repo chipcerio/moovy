@@ -8,5 +8,5 @@ import javax.inject.Inject
 class PopularMoviesViewModel @Inject
 constructor(private val repository: PopularMoviesRepository) {
 
-    fun loadPopularMovies(page: Int): Observable<List<Movie>> = repository.getPopularMovies(page)
+    fun loadPopularMovies(page: Int): Observable<MutableList<Movie>> = repository.getPopularMovies(page)
 }

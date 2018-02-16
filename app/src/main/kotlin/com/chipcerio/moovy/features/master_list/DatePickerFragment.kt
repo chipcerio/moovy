@@ -14,6 +14,8 @@ import java.util.Calendar
 
 class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
+    private lateinit var onDatePickedListener: OnDatePickedListener
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -33,9 +35,18 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val instant = Instant.ofEpochMilli(javaDate.time)
 
         val localDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate()
-        Timber.d("selected_date: $localDate")
         val formatter = DateTimeFormatter.ofPattern("yyyy EE, MMM dd") // 2018 Thu, Mar 15
         val readableDate = localDate.format(formatter)
         Timber.d("readable_date: $readableDate")
+
+        onDatePickedListener.onDatePicked(localDate.toString())
+    }
+
+    interface OnDatePickedListener {
+        fun onDatePicked(date: String)
+    }
+
+    fun setOnDatePickedListener(listener: OnDatePickedListener) {
+        onDatePickedListener = listener
     }
 }

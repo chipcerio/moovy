@@ -8,18 +8,24 @@ import android.view.MenuItem
 import com.chipcerio.moovy.R
 import com.chipcerio.moovy.data.Movie
 import com.chipcerio.moovy.features.details.DetailsActivity
+import com.chipcerio.moovy.features.master_list.DatePickerFragment.OnDatePickedListener
+import com.chipcerio.moovy.features.master_list.MovieAdapter.OnMovieSelectedListener
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
+import org.threeten.bp.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity(), MovieAdapter.OnMovieSelectedListener {
+class MainActivity : DaggerAppCompatActivity(), OnMovieSelectedListener, OnDatePickedListener {
 
     @Inject
     lateinit var viewModel: PopularMoviesViewModel
+
+    private lateinit var adapter: MovieAdapter
 
     private val disposables = CompositeDisposable()
 
@@ -44,6 +50,7 @@ class MainActivity : DaggerAppCompatActivity(), MovieAdapter.OnMovieSelectedList
                     setPopularMovieItems(it)
                 }, { Timber.e(it) })
         )
+        bindFilteredDate()
     }
 
     override fun onStop() {
@@ -51,8 +58,8 @@ class MainActivity : DaggerAppCompatActivity(), MovieAdapter.OnMovieSelectedList
         disposables.clear()
     }
 
-    private fun setPopularMovieItems(items: List<Movie>) {
-        val adapter = MovieAdapter(items)
+    private fun setPopularMovieItems(items: MutableList<Movie>) {
+        adapter = MovieAdapter(items)
         adapter.setOnMovieSelectedListener(this)
         recyclerView.adapter = adapter
     }
@@ -70,8 +77,29 @@ class MainActivity : DaggerAppCompatActivity(), MovieAdapter.OnMovieSelectedList
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_filter) {
-            DatePickerFragment().show(supportFragmentManager, "date_picker")
+            val datePicker = DatePickerFragment()
+            datePicker.show(supportFragmentManager, "date_picker")
+            datePicker.setOnDatePickedListener(this)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private val filteredDateStream = BehaviorSubject.create<String>()
+
+    override fun onDatePicked(date: String) {
+        filteredDateStream.onNext(date)
+    }
+
+    private fun bindFilteredDate() {
+        filteredDateStream.observeOn(AndroidSchedulers.mainThread())
+            .map {
+                LocalDate.parse(it)
+            }
+            .doOnError {
+
+            }
+            .subscribe({
+                adapter.filterByDate(it)
+            })
     }
 }

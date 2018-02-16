@@ -6,7 +6,7 @@ import io.reactivex.Observable
 
 class PopularMoviesLocalSource : PopularMoviesSource {
 
-    override fun getPopularMovies(page: Int): Observable<List<Movie>> {
-        return Observable.just(emptyList())
+    override fun getPopularMovies(page: Int): Observable<MutableList<Movie>> {
+        return Observable.just(mutableListOf())
     }
 }
