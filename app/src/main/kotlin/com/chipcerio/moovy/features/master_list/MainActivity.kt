@@ -56,7 +56,7 @@ class MainActivity : DaggerAppCompatActivity(), OnMovieSelectedListener, OnLoadM
                 }
                 .subscribe({
                     setPopularMovieItems(it)
-                })
+                }, { Timber.e(it) })
         )
 
         pageNumberStream.onNext(page)

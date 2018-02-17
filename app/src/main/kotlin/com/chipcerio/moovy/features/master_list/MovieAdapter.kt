@@ -13,9 +13,9 @@ import org.threeten.bp.LocalDate
 
 class MovieAdapter(private val movies: MutableList<Movie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
-    private lateinit var onMovieSelectedListener: OnMovieSelectedListener
+    private var onMovieSelectedListener: OnMovieSelectedListener? = null
 
-    private lateinit var onLoadMoreMoviesListener: OnLoadMoreMoviesListener
+    private var onLoadMoreMoviesListener: OnLoadMoreMoviesListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_trending, parent, false)
@@ -24,7 +24,7 @@ class MovieAdapter(private val movies: MutableList<Movie>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(movies[position])
-        if (position == movies.lastIndex) onLoadMoreMoviesListener.loadMoreMovies()
+        if (position == movies.lastIndex) onLoadMoreMoviesListener?.loadMoreMovies()
     }
 
     override fun getItemCount(): Int = movies.size
@@ -64,7 +64,7 @@ class MovieAdapter(private val movies: MutableList<Movie>) : RecyclerView.Adapte
         fun bind(movie: Movie) {
             titleView.text = movie.title
             containerView.setOnClickListener {
-                onMovieSelectedListener.onMovieSelected(movie)
+                onMovieSelectedListener?.onMovieSelected(movie)
             }
         }
     }
