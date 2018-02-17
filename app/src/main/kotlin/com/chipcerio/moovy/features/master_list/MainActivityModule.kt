@@ -3,6 +3,7 @@ package com.chipcerio.moovy.features.master_list
 import android.content.SharedPreferences
 import com.chipcerio.moovy.api.ApiService
 import com.chipcerio.moovy.data.source.PopularMoviesSource
+import com.chipcerio.moovy.data.source.local.AppDatabase
 import com.chipcerio.moovy.data.source.local.PopularMoviesLocalSource
 import com.chipcerio.moovy.data.source.remote.PopularMoviesRemoteSource
 import com.chipcerio.moovy.di.scope.Local
@@ -21,7 +22,7 @@ class MainActivityModule {
 
     @Provides
     @Local
-    fun providesPopularMoviesLocalSource(pref: SharedPreferences): PopularMoviesSource {
-        return PopularMoviesLocalSource(pref)
+    fun providesPopularMoviesLocalSource(db: AppDatabase, pref: SharedPreferences): PopularMoviesSource {
+        return PopularMoviesLocalSource(db, pref)
     }
 }

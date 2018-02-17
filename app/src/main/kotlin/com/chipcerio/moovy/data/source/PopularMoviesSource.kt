@@ -15,4 +15,6 @@ interface PopularMoviesSource {
     fun saveImageWidthConfig(imageSizeConfig: String)
 
     fun saveImageUrlConfig(hasConfig: Boolean)
+
+    fun saveMovie(movie: Movie)
 }

@@ -15,6 +15,11 @@ constructor(
 
     override fun getPopularMovies(page: Int): Observable<MutableList<Movie>> {
         return remote.getPopularMovies(page)
+            .flatMapIterable { it }
+            .doOnNext {
+                saveMovie(it)
+            }
+            .toList().toObservable()
     }
 
     override fun loadTmdbConfig(): Observable<Image> {
@@ -46,5 +51,9 @@ constructor(
 
     override fun saveImageUrlConfig(hasConfig: Boolean) {
         local.saveImageUrlConfig(hasConfig)
+    }
+
+    override fun saveMovie(movie: Movie) {
+        local.saveMovie(movie)
     }
 }

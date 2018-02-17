@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import com.chipcerio.moovy.R
 import com.chipcerio.moovy.common.Constants.HAS_TMDB_CONFIG
-import com.chipcerio.moovy.data.Movie
 import com.chipcerio.moovy.features.details.DetailsActivity
 import com.chipcerio.moovy.features.master_list.DatePickerFragment.OnDatePickedListener
 import com.chipcerio.moovy.features.master_list.MovieAdapter.OnLoadMoreMoviesListener
@@ -59,7 +58,7 @@ class MainActivity : DaggerAppCompatActivity(),
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext {
                     it.map {
-                        Timber.d("${it.title}, ${it.release_date}")
+                        Timber.d("${it.title}, ${it.releaseDate}")
                     }
                 }
                 .subscribe({
@@ -94,13 +93,13 @@ class MainActivity : DaggerAppCompatActivity(),
         disposables.clear()
     }
 
-    private fun setPopularMovieItems(items: MutableList<Movie>) {
+    private fun setPopularMovieItems(items: MutableList<DisplayableMovie>) {
         items.forEach {
             adapter.add(items.indexOf(it), it)
         }
     }
 
-    override fun onMovieSelected(movie: Movie) {
+    override fun onMovieSelected(movie: DisplayableMovie) {
         startActivity(Intent(this, DetailsActivity::class.java).apply {
             putExtra(DetailsActivity.EXTRAS_MOVIE, movie)
         })

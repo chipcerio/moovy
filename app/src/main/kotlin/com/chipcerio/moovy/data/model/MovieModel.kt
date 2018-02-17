@@ -1,4 +1,4 @@
-package com.chipcerio.moovy.data
+package com.chipcerio.moovy.data.model
 
 import android.annotation.SuppressLint
 import android.arch.persistence.room.Entity
@@ -35,6 +35,6 @@ data class MovieModel (
 
     val overview: String,
 
-    val release_date: String
+    val releaseDate: String
 
 ) : Parcelable

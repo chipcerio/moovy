@@ -12,7 +12,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_trending.*
 import org.threeten.bp.LocalDate
 
-class MovieAdapter(private val movies: MutableList<Movie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(private val displayableMovies: MutableList<DisplayableMovie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     private var onMovieSelectedListener: OnMovieSelectedListener? = null
 
@@ -24,14 +24,14 @@ class MovieAdapter(private val movies: MutableList<Movie>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(movies[position])
-        if (position == movies.lastIndex) onLoadMoreMoviesListener?.loadMoreMovies()
+        holder.bind(displayableMovies[position])
+        if (position == displayableMovies.lastIndex) onLoadMoreMoviesListener?.loadMoreMovies()
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = displayableMovies.size
 
-    fun add(position: Int, movie: Movie) {
-        movies.add(movie)
+    fun add(position: Int, displayableMovie: DisplayableMovie) {
+        displayableMovies.add(displayableMovie)
         notifyItemChanged(position)
     }
 
@@ -44,17 +44,17 @@ class MovieAdapter(private val movies: MutableList<Movie>) : RecyclerView.Adapte
     }
 
     fun filterByDate(date: LocalDate) {
-        val newMovies = movies.filter {
-            LocalDate.parse(it.release_date).isAfter(date)
+        val newMovies = displayableMovies.filter {
+            LocalDate.parse(it.releaseDate).isAfter(date)
         }
 
-        DiffUtil.calculateDiff(MoviesDiffCallback(movies, newMovies)).apply {
+        DiffUtil.calculateDiff(MoviesDiffCallback(displayableMovies, newMovies)).apply {
             dispatchUpdatesTo(this@MovieAdapter)
         }
     }
 
     interface OnMovieSelectedListener {
-        fun onMovieSelected(movie: Movie)
+        fun onMovieSelected(movie: DisplayableMovie)
     }
 
     interface OnLoadMoreMoviesListener {
@@ -62,11 +62,11 @@ class MovieAdapter(private val movies: MutableList<Movie>) : RecyclerView.Adapte
     }
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-        fun bind(movie: Movie) {
-            titleView.text = movie.title
-            thumbnailView.loadFromUrl(movie.posterPath)
+        fun bind(displayableMovie: DisplayableMovie) {
+            titleView.text = displayableMovie.title
+            thumbnailView.loadFromUrl(displayableMovie.imageUrl)
             containerView.setOnClickListener {
-                onMovieSelectedListener?.onMovieSelected(movie)
+                onMovieSelectedListener?.onMovieSelected(displayableMovie)
             }
         }
     }

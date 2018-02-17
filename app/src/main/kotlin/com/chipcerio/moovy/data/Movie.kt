@@ -43,6 +43,6 @@ data class Movie (
     val overview: String,
 
     @SerializedName("release_date")
-    val release_date: String
+    val releaseDate: String
 
 ) : Parcelable

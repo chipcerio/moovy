@@ -39,4 +39,7 @@ constructor(private val apiService: ApiService, private val pref: SharedPreferen
 
     override fun saveImageUrlConfig(hasConfig: Boolean) {
     }
+
+    override fun saveMovie(movie: Movie) {
+    }
 }
