@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chipcerio.moovy.R
+import com.chipcerio.moovy.common.loadFromUrl
 import com.chipcerio.moovy.data.Movie
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_trending.*
@@ -63,6 +64,7 @@ class MovieAdapter(private val movies: MutableList<Movie>) : RecyclerView.Adapte
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(movie: Movie) {
             titleView.text = movie.title
+            thumbnailView.loadFromUrl(movie.posterPath)
             containerView.setOnClickListener {
                 onMovieSelectedListener?.onMovieSelected(movie)
             }

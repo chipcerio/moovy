@@ -8,5 +8,14 @@ import javax.inject.Inject
 class PopularMoviesViewModel @Inject
 constructor(private val repository: PopularMoviesRepository) {
 
-    fun loadPopularMovies(page: Int): Observable<MutableList<Movie>> = repository.getPopularMovies(page)
+    fun loadPopularMovies(page: Int): Observable<MutableList<Movie>> {
+        return repository.getPopularMovies(page)
+    }
+
+    fun loadTmdbConfig(): Observable<Boolean> {
+        return repository.loadTmdbConfig()
+            .map {
+                it.secureBaseUrl.isNotEmpty() && it.posterSizes.isNotEmpty()
+            }
+    }
 }

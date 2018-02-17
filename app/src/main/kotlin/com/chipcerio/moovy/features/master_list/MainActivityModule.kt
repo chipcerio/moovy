@@ -1,8 +1,12 @@
 package com.chipcerio.moovy.features.master_list
 
+import android.content.SharedPreferences
 import com.chipcerio.moovy.api.ApiService
 import com.chipcerio.moovy.data.source.PopularMoviesSource
+import com.chipcerio.moovy.data.source.local.PopularMoviesLocalSource
 import com.chipcerio.moovy.data.source.remote.PopularMoviesRemoteSource
+import com.chipcerio.moovy.di.scope.Local
+import com.chipcerio.moovy.di.scope.Remote
 import dagger.Module
 import dagger.Provides
 
@@ -10,7 +14,14 @@ import dagger.Provides
 class MainActivityModule {
 
     @Provides
-    fun providesTrendingRemoteSource(apiService: ApiService): PopularMoviesSource {
-        return PopularMoviesRemoteSource(apiService)
+    @Remote
+    fun providesPopularMoviesRemoteSource(apiService: ApiService, pref: SharedPreferences): PopularMoviesSource {
+        return PopularMoviesRemoteSource(apiService, pref)
+    }
+
+    @Provides
+    @Local
+    fun providesPopularMoviesLocalSource(pref: SharedPreferences): PopularMoviesSource {
+        return PopularMoviesLocalSource(pref)
     }
 }

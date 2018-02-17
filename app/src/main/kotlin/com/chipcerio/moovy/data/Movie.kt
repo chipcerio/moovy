@@ -24,7 +24,7 @@ data class Movie (
     val popularity: Double,
 
     @SerializedName("poster_path")
-    val posterPath: String,
+    var posterPath: String,
 
     @SerializedName("original_language")
     val originalLanguage: String,

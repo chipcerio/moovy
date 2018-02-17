@@ -1,5 +1,6 @@
 package com.chipcerio.moovy.api
 
+import com.chipcerio.moovy.api.response.ConfigurationResponse
 import com.chipcerio.moovy.api.response.PopularMoviesResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -17,4 +18,9 @@ interface ApiService {
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
     ): Observable<PopularMoviesResponse>
+
+    @GET("configuration")
+    fun getConfiguration(
+        @Query("api_key") apiKey: String
+    ): Observable<ConfigurationResponse>
 }

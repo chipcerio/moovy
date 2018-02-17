@@ -1,11 +1,13 @@
 package com.chipcerio.moovy.features.master_list
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.chipcerio.moovy.R
+import com.chipcerio.moovy.common.Constants.HAS_TMDB_CONFIG
 import com.chipcerio.moovy.data.Movie
 import com.chipcerio.moovy.features.details.DetailsActivity
 import com.chipcerio.moovy.features.master_list.DatePickerFragment.OnDatePickedListener
@@ -22,10 +24,14 @@ import org.threeten.bp.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity(), OnMovieSelectedListener, OnLoadMoreMoviesListener, OnDatePickedListener {
+class MainActivity : DaggerAppCompatActivity(),
+    OnMovieSelectedListener, OnLoadMoreMoviesListener, OnDatePickedListener {
 
     @Inject
     lateinit var viewModel: PopularMoviesViewModel
+
+    @Inject
+    lateinit var pref: SharedPreferences
 
     private lateinit var adapter: MovieAdapter
 
@@ -34,6 +40,8 @@ class MainActivity : DaggerAppCompatActivity(), OnMovieSelectedListener, OnLoadM
     private val filteredDateStream = BehaviorSubject.create<String>()
 
     private val pageNumberStream = PublishSubject.create<Int>()
+
+    private val configStream = BehaviorSubject.create<Boolean>()
 
     private var page = 1
 
@@ -59,12 +67,26 @@ class MainActivity : DaggerAppCompatActivity(), OnMovieSelectedListener, OnLoadM
                 }, { Timber.e(it) })
         )
 
-        pageNumberStream.onNext(page)
+        // check tmdb configuration
+        val hasConfig = pref.getBoolean(HAS_TMDB_CONFIG, false)
+        if (!hasConfig) {
+            disposables.add(
+                viewModel.loadTmdbConfig()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        configStream.onNext(it)
+                    })
+            )
+        } else {
+            pageNumberStream.onNext(page)
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        bindFilteredDate()
+        bindFilteredDate() // what if list is empty?
+        bindConfigStream()
     }
 
     override fun onStop() {
@@ -107,14 +129,20 @@ class MainActivity : DaggerAppCompatActivity(), OnMovieSelectedListener, OnLoadM
         filteredDateStream.onNext(date)
     }
 
+    private fun bindConfigStream() {
+        disposables.add(
+            configStream.observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it) pageNumberStream.onNext(page)
+                })
+        )
+    }
+
     private fun bindFilteredDate() {
         disposables.add(
             filteredDateStream.observeOn(AndroidSchedulers.mainThread())
                 .map {
                     LocalDate.parse(it)
-                }
-                .doOnError {
-
                 }
                 .subscribe({
                     adapter.filterByDate(it)
