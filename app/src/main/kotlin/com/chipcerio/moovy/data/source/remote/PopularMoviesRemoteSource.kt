@@ -16,11 +16,6 @@ constructor(private val apiService: ApiService, private val pref: SharedPreferen
 
     override fun getPopularMovies(page: Int): Observable<MutableList<Movie>> {
         return apiService.getPopular(BuildConfig.TMDB_API_KEY, page)
-//            .doOnNext {
-//                it.movies.forEach {
-//                    it.posterPath = pref.getString(IMG_BASE_URL, "") + pref.getString(IMG_WIDTH, "") + it.posterPath
-//                }
-//            }
             .map {
                 it.movies.forEach {
                     it.posterPath = pref.getString(IMG_BASE_URL, "") + pref.getString(IMG_WIDTH, "") + it.posterPath
