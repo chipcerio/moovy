@@ -1,91 +1,53 @@
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
+
 # Moovy
+Moovy is a **work-in-progress** movie catalogue Android app, that connects the sources to
+[The Movie Database TMDb](https://www.themoviedb.org/en). It is still in development stage.
 
-Tracking the most trending movies in the planet 
+The app contains a Master/Detail flow type UI and uses RxJava heavily.  Added a layer on top of data layer to separate the logic that retrieves the data and maps it to the entity model from the business logic that acts on the model.
 
-## Getting Started
+Also, themeing isn't applied to the app
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+### Android development
+Newsly uses the latest cutting edge libraries, tools, and patterns. As a summary:
 
-### Prerequisites
+ * app is written entirely in [Kotlin](https://kotlinlang.org/)
+ * uses [RxJava2](https://github.com/ReactiveX/RxJava)
+ * uses [Retrofit](http://square.github.io/retrofit/) for API interface
+ * uses [Gson](https://github.com/google/gson) for JSON serialization/deserialization
+ * uses [Room](https://developer.android.com/topic/libraries/architecture/room.html) for persistence
+ * uses [dagger-android](https://google.github.io/dagger/android.html) for dependency injection
+ * uses [MVVM](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel) architecture pattern
+ * uses [Repository Design Pattern](https://msdn.microsoft.com/en-us/library/ff649690.aspx)
+ * uses [Mockito](http://site.mockito.org/) for unit testing
 
-Put your [Trakt TV](https://trakt.tv/) API Keys into `apikeys.properties` file at the project root folder
+### Motivation
+To keep myself updated to any libraries, tools, or patterns that can be applied to an android app
 
-```
-Give examples
-```
+### Development setup
+Requires the latest Android Studio 3.0.1 (or newer) to be able to build the app.
 
-### Installing
+### API keys
+You need to register at [TMDb API](https://www.themoviedb.org/en) and get an API key
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+When you obtain the API key, you can add it to the app by putting the following in the
+`apikeys.properties` file at the root of the project:
 
 ```
-Give an example
+# Get key from TheMovieDb.org
+TmdbApiKey=<insert_api_key>
 ```
 
-### And coding style tests
+### Code Style
+This project follows the **official code style** from [kotlinlang.org](https://kotlinlang.org/docs/reference/coding-conventions.html) and [Android Kotlin Style Guide](https://android.github.io/kotlin-guides/style.html). It uses [ktlint](https://ktlint.github.io/) for Kotlin linter
 
-Explain what these tests test and why
+### TODO
+ * surviving orientation change
+ * more unit test cases
+ * add retry mechanism
 
-```
-Give an example
-```
+### Contributions
+If you've found an error, you may file an issue.
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Chip Cerio** - *Initial work* - [chipcerio](https://github.com/chipcerio)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the Apache License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* [PurpleBooth](https://github.com/PurpleBooth) for the [README template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* Hat tip to anyone who's code was used
-
-## Inspirations
-
-* [SeriesGuide](https://play.google.com/store/apps/details?id=com.battlelancer.seriesguide)
-* [Chris Banes](https://github.com/chrisbanes) [Tivi](https://github.com/chrisbanes/tivi) Github project
+Patches are encouraged, and may be submitted by forking this project and
+sending a pull request would be awesome.
