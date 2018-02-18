@@ -99,9 +99,9 @@ class MainActivity : DaggerAppCompatActivity(),
         }
     }
 
-    override fun onMovieSelected(movie: DisplayableMovie) {
+    override fun onMovieSelected(displayableMovie: DisplayableMovie) {
         startActivity(Intent(this, DetailsActivity::class.java).apply {
-            putExtra(DetailsActivity.EXTRAS_MOVIE, movie)
+            putExtra(DetailsActivity.EXTRAS_MOVIE, displayableMovie)
         })
     }
 

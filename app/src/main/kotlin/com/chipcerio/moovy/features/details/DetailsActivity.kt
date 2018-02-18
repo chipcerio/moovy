@@ -2,9 +2,10 @@ package com.chipcerio.moovy.features.details
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
 import com.chipcerio.moovy.R
-import com.chipcerio.moovy.data.Movie
+import com.chipcerio.moovy.common.loadFromUrl
+import com.chipcerio.moovy.features.master_list.DisplayableMovie
+import kotlinx.android.synthetic.main.activity_details.*
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -16,8 +17,11 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        val movie = intent.getParcelableExtra<Movie>(EXTRAS_MOVIE)
+        val displayableMovie = intent.getParcelableExtra<DisplayableMovie>(EXTRAS_MOVIE)
 
-        Toast.makeText(this, "movie: ${movie.title}", Toast.LENGTH_SHORT).show()
+        titleView.text = displayableMovie.title
+        releaseDateView.text = displayableMovie.releaseDate
+        overview.text = displayableMovie.overview
+        posterView.loadFromUrl(displayableMovie.imageUrl)
     }
 }

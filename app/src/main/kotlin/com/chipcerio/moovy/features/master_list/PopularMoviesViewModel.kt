@@ -15,7 +15,8 @@ constructor(private val repository: PopularMoviesRepository) {
                     id = it.id,
                     title = it.title,
                     imageUrl = it.posterPath,
-                    releaseDate = it.releaseDate
+                    releaseDate = it.releaseDate,
+                    overview = it.overview
                 )
             }.toList().toObservable()
 

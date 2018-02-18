@@ -14,6 +14,8 @@ class DisplayableMovie (
 
     val imageUrl: String,
 
-    val releaseDate: String
+    val releaseDate: String,
+
+    val overview: String
 
 ) : Parcelable
